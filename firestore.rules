@@ -1,0 +1,90 @@
+// firestore.rules
+rules_version = '2';
+
+service cloud.firestore {
+  // --- Helpers ---
+  function isEditor() {
+    return request.auth != null && request.auth.token.role == "editor";
+  }
+
+  // Only allow the provided keys to change
+  function changedOnly(keys) {
+    return request.resource.data.diff(resource.data).changedKeys().hasOnly(keys);
+  }
+
+  match /databases/{database}/documents {
+
+    // ------------------------------
+    // Core read-only collections
+    // ------------------------------
+    match /groups/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /teams/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ------------------------------
+    // Matches (scores entered by Editors)
+    // ------------------------------
+    match /matches/{id} {
+      allow read: if true;
+
+      // Safer for game night: no client-side creates or deletes
+      allow create: if false;
+      allow delete: if false;
+
+      // Editors can only update score-related fields
+      allow update: if isEditor()
+                    && changedOnly(["score1","score2","winnerId","status","updatedAt"])
+                    && validScoreUpdate();
+
+      // Validate score updates and keep immutable fields locked
+      function validScoreUpdate() {
+        let d = request.resource.data;
+
+        // Immutable fields must not change during scoring
+        let immutOk =
+          d.groupId    == resource.data.groupId    &&
+          d.team1Id    == resource.data.team1Id    &&
+          d.team2Id    == resource.data.team2Id    &&
+          d.court      == resource.data.court      &&
+          d.slot       == resource.data.slot       &&
+          d.startTime  == resource.data.startTime  &&
+          d.endTime    == resource.data.endTime;
+
+        // Scores: allow null (clearing), or non-negative integers within a sensible range
+        let scoresOk =
+          (d.score1 == null || (d.score1 is int && d.score1 >= 0 && d.score1 <= 30)) &&
+          (d.score2 == null || (d.score2 is int && d.score2 >= 0 && d.score2 <= 30));
+
+        // Status constrained to your UI workflow
+        let statusOk = d.status in ["scheduled","in_progress","final"];
+
+        // Winner must be null or one of the two teams in the match
+        let winnerOk =
+          d.winnerId == null ||
+          d.winnerId == resource.data.team1Id ||
+          d.winnerId == resource.data.team2Id;
+
+        // updatedAt stored as epoch ms number
+        let updatedAtOk = d.updatedAt is int;
+
+        return immutOk && scoresOk && statusOk && winnerOk && updatedAtOk;
+      }
+    }
+
+    // ------------------------------
+    // Knockout bracket (Semis/Final/Champion)
+    // Stored at: /bracket/main
+    // ------------------------------
+    match /bracket/{id} {
+      allow read: if true;
+      allow create, update: if isEditor();
+      allow delete: if false;
+    }
+  }
+}

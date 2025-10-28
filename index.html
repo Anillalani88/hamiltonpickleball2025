@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pickleball Live</title>
+    /favicon.ico
+    <style>
+      :root {
+        --green:#8DC63F; --yellow:#FFF200; --blue:#1F4E78; --bg:#f7f9fc;
+        --win:#C6EFCE; --text:#1F2937; --muted:#6b7280;
+        --court1:#C6EFCE; --court2:#FFEB9C; --court3:#FFC7CE; --court4:#D9D2E9;
+      }
+      * { box-sizing:border-box; }
+      body {
+        margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+        background:var(--bg); color:var(--text);
+      }
+      header {
+        background:linear-gradient(90deg,var(--green),#6ab02a);
+        img { height:44px; }
+      header h1 { margin:0; font-size:20px; }
+      header .sub { font-size:12px; color:#103008; }
+      nav {
+        background:#fff; border-bottom:4px solid var(--yellow);
+        display:flex; gap:10px; padding:8px 12px; position:sticky; top:0; z-index:10;
+      }
+      nav a {
+        padding:10px 14px; border-radius:8px; color:var(--blue);
+        text-decoration:none; border:1px solid #e5e7eb;
+      }
+      nav a.active { background:var(--yellow); border-color:#eab308; }
+      main { padding:16px; }
+      .card {
+        background:#fff; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,.06);
+        overflow:hidden;
+      }
+      table { width:100%; border-collapse:collapse; }
+      th { background:var(--blue); color:#fff; padding:10px; text-align:center; }
+      td { padding:10px; text-align:center; border-bottom:1px solid #eef2f7; }
+      tr:nth-child(even) td { background:#F3F6FB; }
+      .badge {
+        display:inline-block; padding:2px 8px; border-radius:999px;
+        font-size:12px; background:#eef2f7;
+      }
+      .court-1{background:var(--court1)} .court-2{background:var(--court2)}
+      .court-3{background:var(--court3)} .court-4{background:var(--court4)}
+      .win { background:var(--win)!important; }
+      .toolbar { display:flex; gap:8px; align-items:center; }
+      .spacer { flex:1; }
+      .btn {
+        padding:8px 12px; border-radius:8px; border:1px solid #e5e7eb;
+        background:#fff; color:var(--blue); cursor:pointer;
+      }
+      .btn.primary { background:var(--green); border-color:#6ab02a; color:#fff; }
+      .input {
+        width:64px; text-align:center; padding:6px;
+        border:1px solid #e5e7eb; border-radius:6px;
+      }
+
+      /* KO inputs narrower */
+      table input.input { width:56px; }
+
+      /* Seed badges */
+      .seed {
+        display:inline-flex; align-items:center; gap:4px;
+        padding:2px 8px; border-radius:999px; font-size:12px; font-weight:600;
+        margin-left:8px; line-height:1;
+      }
+      .seed1 {
+        background:var(--green); color:#103008; border:1px solid #6ab02a;
+      }
+      .seed2 {
+        background:var(--yellow); color:var(--text); border:1px solid #eab308;
+      }
+
+      /* Hide Composite on mobile */
+      @media (max-width:900px){ .hide-md { display:none; } }
+
+      /* Schedule table widths */
+      .nowrap { white-space:nowrap; }
+      .schedule-table th:nth-child(1),
+      .schedule-table td:nth-child(1){ width:56px; }
+      .schedule-table th:nth-child(2),
+      .schedule-table td:nth-child(2){ width:88px; }
+      .schedule-table th:nth-child(3),
+      .schedule-table td:nth-child(3){ width:88px; }
+      .schedule-table th:nth-child(2),
+      .schedule-table th:nth-child(3),
+      .schedule-table td:nth-child(2),
+      .schedule-table td:nth-child(3){ white-space:nowrap; }
+
+      /* Champion banner */
+      .champ-cell { padding:16px!important; }
+      .champ-wrap {
+        display:flex; align-items:center; justify-content:center; gap:12px;
+        padding:12px; border-top:1px solid #e5e7eb;
+      }
+      .champ-label {
+        background:var(--yellow); color:var(--text);
+        font-weight:700; padding:4px 10px; border-radius:999px; border:1px solid #eab308;
+      }
+      .champ-name {
+        font-weight:800; font-size:18px; padding:2px 8px;
+        background:var(--win); border-radius:8px;
+      }
+
+      /* ---------- Mobile-Friendly Tweaks ---------- */
+      .card table {
+        display:block; width:100%; overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+      }
+      @media (max-width:768px){
+        th, td { padding:6px; font-size:12px; }
+        .btn, .print-btn { font-size:12px; padding:6px 8px; }
+        .input { width:48px; font-size:12px; }
+        nav { flex-wrap:wrap; gap:6px; }
+        nav a {
+          flex:1 1 calc(50% - 12px);
+          text-align:center; font-size:14px; padding:8px;
+        }
+        .champ-name { font-size:14px; padding:4px 6px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      /logo.png
+      <h1>Pickleball Live</h1>
+      <span class="sub">Tournament Dashboard</span>
+    </header>
+    <nav>
+      /Group A — Schedule</a>
+      /group-bGroup B — Schedule</a>
+      /standings-aStandings A</a>
+      /standings-bStandings B</a>
+      /knockoutKnockout</a>
+      /adminAdmin</a>
+    </nav>
+    <main>
+      <div id="root"></div>
+    </main>
+    /src/main.tsx</script>
+  </body>
+</html>

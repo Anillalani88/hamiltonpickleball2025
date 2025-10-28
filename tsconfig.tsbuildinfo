@@ -1,0 +1,1 @@
+{"root":["./src/firebase.ts","./src/main.tsx","./src/vite-env.d.ts","./src/components/scoreeditor.tsx","./src/lib/bracket.ts","./src/lib/firestore.ts","./src/pages/adminpage.tsx","./src/pages/app.tsx","./src/pages/grouppage.tsx","./src/pages/knockoutpage.tsx","./src/pages/standingspage.tsx"],"version":"5.9.3"}

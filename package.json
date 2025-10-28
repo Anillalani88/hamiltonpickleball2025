@@ -1,0 +1,25 @@
+{
+  "name": "pickleball-live",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "deploy": "firebase deploy --only hosting,firestore:rules"
+  },
+  "dependencies": {
+    "firebase": "^10.12.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.41",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^5.1.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.3.0"
+  }
+}
